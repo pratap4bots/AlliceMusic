@@ -1,0 +1,16 @@
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from AlliceMusic import app
+
+@app.on_edited_message(filters.group)
+async def delete_edited_msg(client: Client, message: Message):
+    try:
+        user_mention = message.from_user.mention if message.from_user else "Unknown User"
+        await message.delete()
+        await message.chat.send_message(
+            f"{user_mention} ने मैसेज एडिट किया था, जिसे डिलीट कर दिया गया है।"
+        )
+        print(f"Deleted edited message in chat: {message.chat.id}")
+    except Exception as e:
+        print(f"Error deleting edited message: {e}")
+
